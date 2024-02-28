@@ -132,7 +132,7 @@ chrome.runtime.onMessage.addListener(function (request) {
   if (request === 'remove') {
     window.location.reload()
   } else if (request === 'apply') {
-    applyStyle()
+    apply()
   }
   return true
 })
