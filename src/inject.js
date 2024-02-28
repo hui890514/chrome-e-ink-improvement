@@ -111,14 +111,14 @@ function applyStyle() {
   })
 }
 
-function applyCustom() {
+function applyCustomStyle() {
   const style = document.createElement('style')
   style.textContent = custom[host]
   document.body.appendChild(style)
 }
 
 function apply() {
-  custom[host] ? applyCustom() : applyStyle()
+  custom[host] ? applyCustomStyle() : applyStyle()
 }
 
 const host = window.location.host
