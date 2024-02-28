@@ -100,35 +100,40 @@ function updateStyle(node) {
   }
 }
 
+function applyStyle() {
+  document.querySelectorAll('*').forEach(node => {
+    updateStyle(node)
+  })
+
+  const observer = new MutationObserver(mutationList => {
+    for (const mutation of mutationList) {
+      if (mutation.target) {
+        updateStyle(mutation.target)
+        mutation.target.childNodes.forEach(node => {
+          updateStyle(node)
+        })
+      }
+    }
+  })
+
+  observer.observe(document.getElementsByTagName('body')[0], {
+    attributes: true,
+    childList: true,
+    subtree: true
+  })
+}
+
 chrome.storage.sync.get([`e-ink:${window.location.host}`], function (items) {
   const shouldApply = items[`e-ink:${window.location.host}`]
-  if (shouldApply) {
-    document.querySelectorAll('*').forEach(node => {
-      updateStyle(node)
-    })
-
-    const observer = new MutationObserver(mutationList => {
-      for (const mutation of mutationList) {
-        if (mutation.target) {
-          updateStyle(mutation.target)
-          mutation.target.childNodes.forEach(node => {
-            updateStyle(node)
-          })
-        }
-      }
-    })
-
-    observer.observe(document.getElementsByTagName('body')[0], {
-      attributes: true,
-      childList: true,
-      subtree: true
-    })
-  }
+  shouldApply && applyStyle()
 })
 
 chrome.runtime.onMessage.addListener(function (request) {
-  if (request === 'reload') {
+	debugger
+  if (request === 'remove') {
     window.location.reload()
+  } else if (request === 'apply') {
+    applyStyle()
   }
   return true
 })

@@ -17,9 +17,9 @@ chrome.tabs.query(
 
       $('#toggle').on('click', function () {
         shouldApply = !shouldApply
-        chrome.storage.sync.set({[key]:shouldApply})
+        chrome.storage.sync.set({ [key]: shouldApply })
         updateUI(shouldApply)
-        chrome.tabs.sendMessage(tab.id, 'reload')
+        chrome.tabs.sendMessage(tab.id, shouldApply ? 'apply' : 'remove')
       })
     })
   }
