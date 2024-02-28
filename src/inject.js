@@ -101,8 +101,8 @@ function updateStyle(node) {
 }
 
 chrome.storage.sync.get([`e-ink:${window.location.host}`], function (items) {
-  let paused = items[`e-ink:${window.location.host}`]
-  if (!paused) {
+  const shouldApply = items[`e-ink:${window.location.host}`]
+  if (shouldApply) {
     document.querySelectorAll('*').forEach(node => {
       updateStyle(node)
     })

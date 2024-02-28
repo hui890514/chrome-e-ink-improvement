@@ -1,5 +1,5 @@
 function updateUI(paused) {
-  $('#toggle').text(paused ? 'Apply ink style' : 'Remove ink style')
+  $('#toggle').text(paused ? 'Remove ink style' : 'Apply ink style')
 }
 
 chrome.tabs.query(
@@ -12,20 +12,13 @@ chrome.tabs.query(
     const host = new URL(tab.url).host
     const key = `e-ink:${host}`
     chrome.storage.sync.get([key], function (items) {
-      let paused = items[key]
-      updateUI(paused)
+      let shouldApply = items[key]
+      updateUI(shouldApply)
 
       $('#toggle').on('click', function () {
-        const obj = {}
-        if (paused) {
-          obj[key] = 0
-        } else {
-          obj[key] = 1
-        }
-        chrome.storage.sync.set(obj)
-        paused = !paused
-        updateUI(paused)
-
+        shouldApply = !shouldApply
+        chrome.storage.sync.set({[key]:shouldApply})
+        updateUI(shouldApply)
         chrome.tabs.sendMessage(tab.id, 'reload')
       })
     })
