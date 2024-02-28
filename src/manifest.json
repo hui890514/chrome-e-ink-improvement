@@ -32,7 +32,7 @@
     {
       "matches": ["https://github.com/*"],
       "js": [],
-      "css": ["css/custom/github.css"]
+      "css": ["css/github.css"]
     }
   ],
   "permissions": ["activeTab", "storage"]

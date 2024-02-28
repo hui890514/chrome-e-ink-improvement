@@ -1,19 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>Ink View</title>
-    <link rel="stylesheet" href="css/popup.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="app">
-        <button type="button" id="toggle">
-        </button>
-        <a href="#" id="shortcuts">Configure shortcuts</a>
+      <button type="button" id="button"></button>
+      <a href="#" id="shortcuts">Configure shortcuts</a>
     </div>
-    <script src="jquery.js"></script>
     <script src="popup.js"></script>
-</body>
+  </body>
+
+  <style>
+    #app {
+      width: 200px;
+      height: 120px;
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    button {
+      border: 1px solid #000;
+      background: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 130px;
+      height: 30px;
+    }
+  </style>
 </html>
