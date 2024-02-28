@@ -28,11 +28,6 @@
     {
       "matches": ["<all_urls>"],
       "js": ["inject.js"]
-    },
-    {
-      "matches": ["https://github.com/*"],
-      "js": [],
-      "css": ["css/github.css"]
     }
   ],
   "permissions": ["activeTab", "storage"]

@@ -123,13 +123,24 @@ function applyStyle() {
   })
 }
 
-chrome.storage.sync.get([`e-ink:${window.location.host}`], function (items) {
-  const shouldApply = items[`e-ink:${window.location.host}`]
-  shouldApply && applyStyle()
+function applyCustom() {
+  const style = document.createElement('style')
+  style.textContent = custom[host]
+  document.body.appendChild(style)
+}
+
+function apply() {
+  custom[host] ? applyCustom() : applyStyle()
+}
+
+const host = window.location.host
+
+chrome.storage.sync.get([`e-ink:${host}`], function (items) {
+  const shouldApply = items[`e-ink:${host}`]
+  shouldApply && apply()
 })
 
 chrome.runtime.onMessage.addListener(function (request) {
-	debugger
   if (request === 'remove') {
     window.location.reload()
   } else if (request === 'apply') {
@@ -137,3 +148,7 @@ chrome.runtime.onMessage.addListener(function (request) {
   }
   return true
 })
+
+const custom = {
+  'github.com': ``
+}
