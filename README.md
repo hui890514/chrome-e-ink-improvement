@@ -22,6 +22,8 @@ You can also use the shortcut(<Ctrl-Shift-E>) to toggle the ink style.
 
 It's important to note that when you apply the ink style on a tab, the extension will remember the website host, so when you open the same host website afterward, the ink style will be automatically applied. You don't need to apply it twice(remove ink style is similar). In other words, the toggle ink style option works on each different host website.
 
+You can click the text `Clear storage` in the popup to clear the remembered website, then all websites opened after will not use the ink style until you click the `Apply ink style` button again.
+
 ## Thanks
 
 This project is heavily inspired by the awesome project [ismartcoding/e-ink-viewable](https://github.com/ismartcoding/e-ink-viewable).

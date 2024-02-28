@@ -31,3 +31,7 @@ document.getElementById('shortcuts').addEventListener('click', () => {
     url: 'chrome://extensions/shortcuts'
   })
 })
+
+document.getElementById('storage').addEventListener('click', () => {
+  chrome.storage.sync.clear()
+})
