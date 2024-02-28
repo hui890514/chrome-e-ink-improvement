@@ -29,33 +29,25 @@ function ignoreTag(node) {
   if (!node.tagName) {
     return true
   }
-
   const tag = node.tagName.toLowerCase()
-
   if (ignoreTagNames.includes(tag)) {
     return true
   }
-
   // ignore custom tags which contain video, audio, img...
   if (['video', 'audio', 'img'].some(it => tag.includes(it))) {
     return true
   }
-
   if (tag === 'input' && ['checkbox', 'radio'].includes(node.type)) {
     return true
   }
-
-  return false
 }
 
 function updateStyle(node) {
   if (ignoreTag(node)) {
     return
   }
-
   const style = window.getComputedStyle(node)
   const tag = node.tagName.toLowerCase()
-
   const backgroundColor = style.backgroundColor
   if (
     backgroundColor &&
@@ -79,14 +71,11 @@ function updateStyle(node) {
       }
     }
   }
-
   if (style.background.indexOf('linear-gradient') !== -1) {
     // remove linear gradient
     node.style.setProperty('background', '#fff', 'important')
   }
-
   node.style.setProperty('color', '#000', 'important')
-
   const borderColor = style.borderColor
   if (borderColor && borderColor !== 'rgb(0, 0, 0)') {
     if (!isDark(borderColor)) {
@@ -94,7 +83,6 @@ function updateStyle(node) {
       node.style.setProperty('border-color', '#000', 'important')
     }
   }
-
   if (tag === 'svg') {
     node.style.setProperty('fill', 'currentColor', 'important')
   }
