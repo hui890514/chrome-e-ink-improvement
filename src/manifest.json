@@ -1,0 +1,39 @@
+{
+  "name": "E-ink Improvement",
+  "description": " This is a Chrome extension to improve the websites shown in e-ink displays.",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "icons": {
+    "16": "icons/icon.png",
+    "32": "icons/icon.png",
+    "48": "icons/icon.png",
+    "128": "icons/icon.png"
+  },
+  "action": {
+    "default_title": "E-ink Improvement",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "toggle-ink-style": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E"
+      },
+      "description": "Toggle ink style"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["inject.js"]
+    },
+    {
+      "matches": ["https://github.com/*"],
+      "js": [],
+      "css": ["css/custom/github.css"]
+    }
+  ],
+  "permissions": ["activeTab", "storage"]
+}
