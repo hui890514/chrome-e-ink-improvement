@@ -41,11 +41,12 @@ checkbox.addEventListener('click', () => {
   chrome.storage.sync.set({ shouldApplyCodeBlockStyle })
   chrome.tabs.sendMessage(
     tabId,
-    checkbox.checked ? 'applyCodeBlockStyle' : 'removeCodeBlockStyle'
+    shouldApplyCodeBlockStyle ? 'applyCodeBlockStyle' : 'removeCodeBlockStyle'
   )
 })
 chrome.storage.sync.get(['shouldApplyCodeBlockStyle']).then(items => {
-  checkbox.checked = items['shouldApplyCodeBlockStyle']
+  shouldApplyCodeBlockStyle = checkbox.checked =
+    items['shouldApplyCodeBlockStyle']
 })
 
 document.getElementById('shortcuts').addEventListener('click', () => {
