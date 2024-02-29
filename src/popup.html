@@ -8,8 +8,12 @@
   <body>
     <div id="app">
       <button type="button" id="button"></button>
+      <button type="button" id="clear-storage-button">Clear storage</button>
+      <div id="checkbox-div">
+        <input type="checkbox" checked="false" id="checkbox" />
+        <span>Apply code block style</span>
+      </div>
       <a href="#" id="shortcuts">Configure shortcuts</a>
-      <a href="#" id="storage">Clear storage</a>
     </div>
     <script src="popup.js"></script>
   </body>
@@ -31,6 +35,16 @@
       cursor: pointer;
       width: 130px;
       height: 30px;
+    }
+
+    #checkbox-div {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+    }
+
+    #checkbox {
+      cursor: pointer;
     }
   </style>
 </html>

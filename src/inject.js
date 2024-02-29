@@ -1,13 +1,11 @@
 function parseRgbString(rgb) {
   return rgb.replace(/[^\d,]/g, '').split(',')
 }
-
 //http://www.w3.org/TR/AERT#color-contrast
 function getBrightness(color) {
   const c = parseRgbString(color)
   return (c[0] * 299 + c[1] * 587 + c[2] * 114) / 1000
 }
-
 function isDark(color) {
   return getBrightness(color) < 128
 }
@@ -24,7 +22,6 @@ const ignoreTagNames = [
   'video',
   'audio'
 ]
-
 function ignoreTag(node) {
   if (!node.tagName) {
     return true
@@ -117,22 +114,44 @@ function applyCustomStyle() {
   document.body.appendChild(style)
 }
 
+let style
+function applyCodeBlockStyle() {
+  if (!style) {
+    style = document.createElement('style')
+    style.textContent =
+      'pre{background-color:#fff!important;color:#000!important;border:1px solid #000;}pre span{color:#000!important;}'
+  }
+  document.body.appendChild(style)
+}
+
+function removeCodeBlockStyle() {
+  style?.parentNode?.removeChild(style)
+}
+
 function apply() {
   custom[host] ? applyCustomStyle() : applyStyle()
 }
 
 const host = window.location.host
 
-chrome.storage.sync.get([`e-ink:${host}`], function (items) {
+chrome.storage.sync.get(['shouldApplyCodeBlockStyle']).then(items => {
+  items['shouldApplyCodeBlockStyle'] && applyCodeBlockStyle()
+})
+
+chrome.storage.sync.get([`e-ink:${host}`]).then(items => {
   const shouldApply = items[`e-ink:${host}`]
   shouldApply && apply()
 })
 
-chrome.runtime.onMessage.addListener(function (request) {
+chrome.runtime.onMessage.addListener(request => {
   if (request === 'remove') {
     window.location.reload()
   } else if (request === 'apply') {
     apply()
+  } else if (request === 'removeCodeBlockStyle') {
+    removeCodeBlockStyle()
+  } else if (request === 'applyCodeBlockStyle') {
+    applyCodeBlockStyle()
   }
   return true
 })
