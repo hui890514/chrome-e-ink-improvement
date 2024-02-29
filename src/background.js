@@ -15,5 +15,24 @@ chrome.commands.onCommand.addListener(command => {
           chrome.tabs.sendMessage(tab.id, shouldApply ? 'apply' : 'remove')
         })
       })
+  } else if (command === 'toggle-code-block-style') {
+    chrome.tabs
+      .query({
+        active: true,
+        currentWindow: true
+      })
+      .then(tabs => {
+        const tab = tabs[0]
+        chrome.storage.sync.get(['shouldApplyCodeBlockStyle']).then(items => {
+          const shouldApplyCodeBlockStyle = !items['shouldApplyCodeBlockStyle']
+          chrome.tabs.sendMessage(
+            tab.id,
+            shouldApplyCodeBlockStyle
+              ? 'applyCodeBlockStyle'
+              : 'removeCodeBlockStyle'
+          )
+          chrome.storage.sync.set({ shouldApplyCodeBlockStyle })
+        })
+      })
   }
 })
