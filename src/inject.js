@@ -119,7 +119,7 @@ function applyCodeBlockStyle() {
   if (!style) {
     style = document.createElement('style')
     style.textContent =
-      'pre{background-color:#fff!important;color:#000!important;border:1px solid #000;}pre span{color:#000!important;}'
+      'pre{border:1px solid #000 !important;}pre,pre *{background-color:#fff !important;color:#000 !important;}'
   }
   document.body.appendChild(style)
 }
