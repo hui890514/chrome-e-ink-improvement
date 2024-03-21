@@ -2,9 +2,16 @@
   "name": "chrome-e-ink-improvement",
   "version": "1.0.0",
   "description": "This is a Chrome extension to improve the websites shown in e-ink displays.",
-  "main": "index.js",
-  "scripts": {},
+  "type": "module",
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "rollup -c"
+  },
   "keywords": [],
   "author": "hui890514",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "^4.13.0",
+    "rollup-plugin-chrome-extension": "^3.6.12"
+  }
 }
