@@ -160,5 +160,5 @@ const custom = {
   'github.com':
     '.hx_IssueLabel{background: white !important;color:black !important;border-color: black !important;}',
   'code.visualstudio.com':
-    '.navbar{background:white !important;}.navbar a{background:white !important;color:black !important;}'
+    '.navbar{background:white !important;}.navbar a{background:white !important;color:black !important;}.search input{color: black !important;border: 1px solid black !important;}'
 }
