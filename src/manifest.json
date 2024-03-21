@@ -1,7 +1,7 @@
 {
   "name": "E-ink Improvement",
   "description": "This is a Chrome extension to improve the websites shown in e-ink displays.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "manifest_version": 3,
   "icons": {
     "16": "icons/icon.png",

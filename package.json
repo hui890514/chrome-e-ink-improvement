@@ -1,0 +1,10 @@
+{
+  "name": "chrome-e-ink-improvement",
+  "version": "1.0.0",
+  "description": "This is a Chrome extension to improve the websites shown in e-ink displays.",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "hui890514",
+  "license": "MIT"
+}
