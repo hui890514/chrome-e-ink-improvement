@@ -36,7 +36,9 @@ The main idea is to convert dark themes to light themes, and more, I will do som
 
 ## Thanks
 
-This project is heavily inspired by the awesome project [ismartcoding/e-ink-viewable](https://github.com/ismartcoding/e-ink-viewable).
+This project is heavily inspired by the following awesome project.
+
+- [ismartcoding/e-ink-viewable](https://github.com/ismartcoding/e-ink-viewable).
 
 ## License
 
