@@ -157,5 +157,6 @@ chrome.runtime.onMessage.addListener(request => {
 })
 
 const custom = {
-  'github.com': ``
+  'github.com':
+    '.hx_IssueLabel{background: white !important;color:black !important;border-color: black !important;}'
 }
