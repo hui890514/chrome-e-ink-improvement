@@ -1,38 +1,32 @@
-chrome.commands.onCommand.addListener(command => {
+import { queryCurrentTab, sendMessage, setStorage } from './chrome'
+import { shouldApplyInkStyle } from './inkStyle'
+import { shouldApplyCodeBlockStyle } from './codeBlockStyle'
+
+setStorage({
+  shouldApplyCodeBlockStyle: true
+})
+
+chrome.commands.onCommand.addListener(async command => {
+  const tab = await queryCurrentTab()
+  const tabId = tab.id
   if (command === 'toggle-ink-style') {
-    chrome.tabs
-      .query({
-        active: true,
-        currentWindow: true
-      })
-      .then(tabs => {
-        const tab = tabs[0]
-        const host = new URL(tab.url).host
-        const key = `e-ink:${host}`
-        chrome.storage.sync.get([key]).then(items => {
-          const shouldApply = !items[key]
-          chrome.storage.sync.set({ [key]: shouldApply })
-          chrome.tabs.sendMessage(tab.id, shouldApply ? 'apply' : 'remove')
-        })
-      })
+    const host = `e-ink: ${new URL(tab.url).host}`
+    const _shouldApplyInkStyle = await shouldApplyInkStyle(host)
+    setStorage({ [host]: !_shouldApplyInkStyle })
+    sendMessage(
+      tabId,
+      !_shouldApplyInkStyle ? 'applyInkStyle' : 'removeInkStyle'
+    )
   } else if (command === 'toggle-code-block-style') {
-    chrome.tabs
-      .query({
-        active: true,
-        currentWindow: true
-      })
-      .then(tabs => {
-        const tab = tabs[0]
-        chrome.storage.sync.get(['shouldApplyCodeBlockStyle']).then(items => {
-          const shouldApplyCodeBlockStyle = !items['shouldApplyCodeBlockStyle']
-          chrome.tabs.sendMessage(
-            tab.id,
-            shouldApplyCodeBlockStyle
-              ? 'applyCodeBlockStyle'
-              : 'removeCodeBlockStyle'
-          )
-          chrome.storage.sync.set({ shouldApplyCodeBlockStyle })
-        })
-      })
+    const _shouldApplyCodeBlockStyle = await shouldApplyCodeBlockStyle()
+    setStorage({
+      shouldApplyCodeBlockStyle: !_shouldApplyCodeBlockStyle
+    })
+    sendMessage(
+      tabId,
+      !_shouldApplyCodeBlockStyle
+        ? 'applyCodeBlockStyle'
+        : 'removeCodeBlockStyle'
+    )
   }
 })

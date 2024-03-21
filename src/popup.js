@@ -1,56 +1,57 @@
-let shouldApply
-let tabId
-let key
-chrome.tabs
-  .query({
-    active: true,
-    currentWindow: true
-  })
-  .then(tabs => {
-    const tab = tabs[0]
-    const host = new URL(tab.url).host
-    tabId = tab.id
-    key = `e-ink:${host}`
-    chrome.storage.sync.get([key]).then(items => {
-      shouldApply = items[key]
-      button.textContent = shouldApply ? 'Remove ink style' : 'Apply ink style'
-    })
-  })
+import { shouldApplyCodeBlockStyle } from './codeBlockStyle'
+import {
+  setStorage,
+  sendMessage,
+  queryCurrentTab,
+  createTab,
+  clearStorage
+} from './chrome'
+import { shouldApplyInkStyle } from './inkStyle'
 
-const button = document.getElementById('button')
-button.addEventListener('click', () => {
-  chrome.storage.sync.set({ [key]: !shouldApply })
-  chrome.tabs.sendMessage(tabId, !shouldApply ? 'apply' : 'remove')
+const tab = await queryCurrentTab()
+const tabId = tab.id
+
+// ink style
+const button1 = document.getElementById('button1')
+const host = `e-ink: ${new URL(tab.url).host}`
+const _shouldApplyInkStyle = await shouldApplyInkStyle(host)
+button1.textContent = _shouldApplyInkStyle
+  ? 'Remove ink style'
+  : 'Apply ink style'
+button1.addEventListener('click', () => {
+  setStorage({ [host]: !_shouldApplyInkStyle })
+  sendMessage(tabId, !_shouldApplyInkStyle ? 'applyInkStyle' : 'removeInkStyle')
   window.close()
 })
 
-document
-  .getElementById('clear-storage-button')
-  .addEventListener('click', () => {
-    chrome.storage.sync.clear()
-    if (shouldApply) chrome.tabs.sendMessage(tabId, 'remove')
-    else if (shouldApplyCodeBlockStyle)
-      chrome.tabs.sendMessage(tabId, 'removeCodeBlockStyle')
-    window.close()
-  })
-
+// code block style
 const checkbox = document.getElementById('checkbox')
-let shouldApplyCodeBlockStyle
+let _shouldApplyCodeBlockStyle = (checkbox.checked =
+  await shouldApplyCodeBlockStyle())
 checkbox.addEventListener('click', () => {
-  shouldApplyCodeBlockStyle = checkbox.checked
-  chrome.storage.sync.set({ shouldApplyCodeBlockStyle })
-  chrome.tabs.sendMessage(
+  _shouldApplyCodeBlockStyle = checkbox.checked
+  setStorage({
+    shouldApplyCodeBlockStyle: _shouldApplyCodeBlockStyle
+  })
+  sendMessage(
     tabId,
-    shouldApplyCodeBlockStyle ? 'applyCodeBlockStyle' : 'removeCodeBlockStyle'
+    _shouldApplyCodeBlockStyle ? 'applyCodeBlockStyle' : 'removeCodeBlockStyle'
   )
 })
-chrome.storage.sync.get(['shouldApplyCodeBlockStyle']).then(items => {
-  shouldApplyCodeBlockStyle = checkbox.checked =
-    items['shouldApplyCodeBlockStyle']
+
+// clear storage
+document.getElementById('button2').addEventListener('click', () => {
+  clearStorage()
+  setStorage({
+    shouldApplyCodeBlockStyle: true
+  })
+  if (_shouldApplyInkStyle) sendMessage(tabId, 'removeInkStyle')
+  else if (!_shouldApplyCodeBlockStyle)
+    sendMessage(tabId, 'applyCodeBlockStyle')
+  window.close()
 })
 
+// shortcuts
 document.getElementById('shortcuts').addEventListener('click', () => {
-  chrome.tabs.create({
-    url: 'chrome://extensions/shortcuts'
-  })
+  createTab('chrome://extensions/shortcuts')
 })
