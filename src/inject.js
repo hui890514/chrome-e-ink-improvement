@@ -158,5 +158,7 @@ chrome.runtime.onMessage.addListener(request => {
 
 const custom = {
   'github.com':
-    '.hx_IssueLabel{background: white !important;color:black !important;border-color: black !important;}'
+    '.hx_IssueLabel{background: white !important;color:black !important;border-color: black !important;}',
+  'code.visualstudio.com':
+    '.navbar{background:white !important;}.navbar a{background:white !important;color:black !important;}'
 }
